@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Ensure directories exist
-const PUBLIC_DIR = path.join(__dirname, 'public');
+const PUBLIC_DIR = __dirname;
 const DATA_DIR = path.join(__dirname, 'data');
 if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
