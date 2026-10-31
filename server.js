@@ -218,5 +218,5 @@ app.get('/admin', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(\`Nargis Bakes server live on port \${PORT}\`);
+  console.log(`Nargis Bakes server live on port ${PORT}`);
 });
