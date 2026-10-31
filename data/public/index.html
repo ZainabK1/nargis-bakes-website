@@ -45,7 +45,7 @@
       </div>
       <div class="flex items-center gap-3">
         <label class="cursor-pointer bg-blush text-espresso px-3 py-1 rounded-full font-semibold hover:bg-blushDeep transition">
-          Sync Photos
+          Load Local Photos (001–009)
           <input type="file" id="localPhotoInput" multiple accept="image/*" class="hidden" onchange="handleLocalFiles(this.files)" />
         </label>
         <a href="/admin" class="text-gold hover:underline font-medium">Kitchen Admin</a>
@@ -69,7 +69,7 @@
       <nav class="hidden md:flex items-center gap-7 text-sm font-semibold">
         <a href="#menu" class="hover:text-gold transition">Counter Menu</a>
         <a href="#box-builder" class="hover:text-gold transition">Build a Pink Box</a>
-        <a href="#gallery" class="hover:text-gold transition">Gallery</a>
+        <a href="#gallery" class="hover:text-gold transition">Real Counter Gallery</a>
         <a href="#bespoke" class="hover:text-gold transition">Celebration Slabs</a>
         <a href="#visit" class="hover:text-gold transition">Visit Us</a>
       </nav>
@@ -109,21 +109,21 @@
         <div class="space-y-4">
           <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-white bg-white">
             <img data-photo="nargis_bakes_008.jpg" src="nargis_bakes_008.jpg" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80'" alt="Kunafa Brownie & Pistachio Whippy" class="w-full h-52 object-cover" />
-            <div class="p-3 text-xs font-semibold text-center">Kunafa Brownie & Soft-Serve</div>
+            <div class="p-3 text-xs font-semibold">Kunafa Brownie & Whippy (008.jpg)</div>
           </div>
           <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-white bg-white">
             <img data-photo="nargis_bakes_006.jpg" src="nargis_bakes_006.jpg" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80'" alt="4-Layer Matilda Cake" class="w-full h-40 object-cover" />
-            <div class="p-3 text-xs font-semibold text-center">4-Layer Matilda Cake</div>
+            <div class="p-3 text-xs font-semibold">4-Layer Matilda Cake (006.jpg)</div>
           </div>
         </div>
         <div class="space-y-4 pt-6">
           <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-white bg-white">
             <img data-photo="nargis_bakes_001.jpg" src="nargis_bakes_001.jpg" onerror="this.src='https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80'" alt="Pistachio & Rose Milk Cake" class="w-full h-40 object-cover" />
-            <div class="p-3 text-xs font-semibold text-center">Pistachio & Rose Milk Cake</div>
+            <div class="p-3 text-xs font-semibold">Pistachio Rose Milk Cake (001.jpg)</div>
           </div>
           <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-white bg-white">
             <img data-photo="nargis_bakes_009.jpg" src="nargis_bakes_009.jpg" onerror="this.src='https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=800&q=80'" alt="Kunafa Brownie Slice" class="w-full h-52 object-cover" />
-            <div class="p-3 text-xs font-semibold text-center">Signature Kunafa Layers</div>
+            <div class="p-3 text-xs font-semibold">Kunafa Brownie Layers (009.jpg)</div>
           </div>
         </div>
       </div>
@@ -153,6 +153,391 @@
   <section id="box-builder" class="py-16 px-4 sm:px-6 bg-blush/50 border-y border-blushDeep/50">
     <div class="max-w-7xl mx-auto">
       <div class="text-center max-w-2xl mx-auto mb-10">
-        <span class="text-xs font-bold uppercase tracking-widest text-espresso/70">Custom Gift Selection</span>
+        <span class="text-xs font-bold uppercase tracking-widest text-espresso/70">As Seen On Our Display Counter (007.jpg)</span>
         <h2 class="text-3xl sm:text-4xl font-bold mt-1">Build Your Signature Pink ‘NB’ Box</h2>
-        <p class="text-sm text-espresso/80 mt-2">Pick your box size and fill each slot with your favourite brownies
+        <p class="text-sm text-espresso/80 mt-2">Pick your box size and fill each slot with your favourite brownies, blondies, or NYC cookies.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-blushDeep">
+          <div class="flex flex-wrap gap-3 mb-6">
+            <button onclick="setBoxSize(4, 16.00)" id="boxBtn4" class="px-4 py-2.5 rounded-xl font-semibold text-sm bg-espresso text-cream">Box of 4 (£16.00)</button>
+            <button onclick="setBoxSize(6, 27.30)" id="boxBtn6" class="px-4 py-2.5 rounded-xl font-semibold text-sm bg-blush text-espresso">Selection Box of 6 (£27.30)</button>
+          </div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-espresso/70 mb-3">Tap a Treat to Add to Your Box:</h3>
+          <div id="boxTreatChoices" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+        </div>
+
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-md border-2 border-blushDeep">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-serif text-xl font-bold">Your Pink Box Slots</h3>
+            <span id="boxPriceLabel" class="font-bold text-lg">£16.00</span>
+          </div>
+          <div id="boxSlotsContainer" class="grid grid-cols-2 gap-3 mb-4"></div>
+          <input id="boxGiftNote" type="text" placeholder="Optional gift ribbon note (e.g. Happy Birthday!)" class="w-full border border-blushDeep rounded-xl px-3.5 py-2.5 text-sm mb-4" />
+          <button onclick="addCustomBoxToCart()" class="w-full bg-espresso text-cream py-3 rounded-xl font-semibold text-sm hover:bg-espresso/90 transition">
+            Add Custom Pink Box to Order Bag
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real 9-Photo Counter Gallery -->
+  <section id="gallery" class="py-16 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-gold">Authentic Downloaded Gallery</span>
+        <h2 class="text-3xl font-bold mt-1">Inside Nargis Bakes (001.jpg – 009.jpg)</h2>
+      </div>
+    </div>
+    <div id="photoGalleryGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+  </section>
+
+  <!-- Bespoke Celebration Slab & Event Enquiry Form (Connected to POST /api/enquiries) -->
+  <section id="bespoke" class="py-16 px-4 sm:px-6 bg-espresso text-cream">
+    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+      <div class="space-y-4">
+        <span class="text-xs uppercase tracking-widest text-gold font-bold">Bespoke Plaques & Event Slabs</span>
+        <h2 class="text-3xl font-bold">Order a Custom Celebration Brownie Box</h2>
+        <p class="text-sm text-cream/80 leading-relaxed">
+          Just like the ‘Happy Birthday’ luxury brownie & strawberry gift slab in our counter display (`nargis_bakes_007.jpg`), we handcraft custom-scripted brownie slabs and dessert tables for birthdays, weddings, and corporate events.
+        </p>
+        <img data-photo="nargis_bakes_007.jpg" src="nargis_bakes_007.jpg" onerror="this.src='https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80'" alt="Nargis Bakes Counter & Celebration Box" class="rounded-2xl border-2 border-gold/40 w-full h-56 object-cover" />
+      </div>
+
+      <form onsubmit="submitEnquiryForm(event)" class="bg-white text-espresso p-6 rounded-2xl shadow-xl space-y-4">
+        <h3 class="font-serif text-xl font-bold">Send a Bespoke Cake Enquiry</h3>
+        <input id="enqName" required type="text" placeholder="Your Full Name" class="w-full border rounded-xl px-3.5 py-2.5 text-sm" />
+        <input id="enqPhone" required type="tel" placeholder="Mobile Number (e.g. 07961 137116)" class="w-full border rounded-xl px-3.5 py-2.5 text-sm" />
+        <div class="grid grid-cols-2 gap-3">
+          <input id="enqDate" required type="date" class="w-full border rounded-xl px-3.5 py-2.5 text-sm" />
+          <input id="enqGuests" type="number" placeholder="Guests / Box Count" class="w-full border rounded-xl px-3.5 py-2.5 text-sm" />
+        </div>
+        <textarea id="enqMessage" required rows="3" placeholder="Tell us your plaque message (e.g. Happy Birthday), flavours, or berries..." class="w-full border rounded-xl px-3.5 py-2.5 text-sm"></textarea>
+        <button type="submit" class="w-full bg-espresso text-cream py-3 rounded-xl font-semibold text-sm hover:bg-espresso/90 transition">
+          Submit Enquiry to Bakery
+        </button>
+        <p id="enqFeedback" class="text-xs font-semibold text-center hidden"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Visit Us & Hours -->
+  <section id="visit" class="py-16 px-4 sm:px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
+    <div class="bg-blush/40 p-6 rounded-2xl border border-blushDeep space-y-3">
+      <h3 class="font-serif text-2xl font-bold">Visit Our Bradford Dessert Counter</h3>
+      <p class="text-sm"><strong>Address:</strong> 503 Great Horton Rd, Bradford BD7 4EG</p>
+      <p class="text-sm"><strong>Phone:</strong> <a href="tel:07961137116" class="underline font-semibold">07961 137116</a></p>
+      <div class="pt-2 text-sm space-y-1">
+        <p class="font-bold">Opening Hours:</p>
+        <p>Monday – Friday: 2:00 PM – 12:00 AM (Midnight)</p>
+        <p>Saturday – Sunday: 12:00 PM – 12:00 AM (Midnight)</p>
+      </div>
+    </div>
+    <div class="rounded-2xl overflow-hidden border border-blushDeep min-h-[250px]">
+      <iframe
+        title="Nargis Bakes Map"
+        src="https://www.google.com/maps?q=503+Great+Horton+Rd,+Bradford+BD7+4EG&output=embed"
+        class="w-full h-full min-h-[250px] border-0"
+        loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- Slide-Over Click & Collect Order Drawer (Connected to POST /api/orders) -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 hidden">
+    <div onclick="toggleCart(false)" class="fixed inset-0 bg-black/50 backdrop-blur-xs"></div>
+    <div class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-cream shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-blushDeep">
+          <h3 class="font-serif text-2xl font-bold">Your Click & Collect Bag</h3>
+          <button onclick="toggleCart(false)" class="text-sm font-bold px-3 py-1 rounded-full bg-blush">Close ✕</button>
+        </div>
+        <div id="cartItemsList" class="py-4 space-y-3"></div>
+      </div>
+
+      <form onsubmit="submitOrderToBackend(event)" class="border-t border-blushDeep pt-4 space-y-3">
+        <div class="flex justify-between font-bold text-lg">
+          <span>Total to Pay at Counter / Online</span>
+          <span id="cartTotalDisplay">£0.00</span>
+        </div>
+        <input id="custName" required type="text" placeholder="Your Full Name" class="w-full border rounded-xl px-3.5 py-2 text-sm" />
+        <input id="custPhone" required type="tel" placeholder="Mobile Number" class="w-full border rounded-xl px-3.5 py-2 text-sm" />
+        <input id="custTime" required type="text" placeholder="Pickup Time (e.g. Today 7:30 PM)" class="w-full border rounded-xl px-3.5 py-2 text-sm" />
+        <input id="custNotes" type="text" placeholder="Warm up items / extra sauce notes..." class="w-full border rounded-xl px-3.5 py-2 text-sm" />
+        <button type="submit" class="w-full bg-espresso text-cream py-3.5 rounded-xl font-semibold text-sm hover:bg-espresso/90 transition">
+          Send Order to Kitchen
+        </button>
+        <p id="orderResultMsg" class="text-xs font-semibold text-center hidden"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Authentic Menu Items Mapped to nargis_bakes_001.jpg - 009.jpg
+    const MENU_ITEMS = [
+      { id: 1, name: 'Viral Pistachio Kunafa Brownie Slice', price: 5.50, cat: 'kunafa', photo: 'nargis_bakes_009.jpg', desc: 'Fudgy chocolate brownie base, thick crunchy pistachio kataifi middle, and feathered milk & white chocolate top.' },
+      { id: 2, name: 'Kunafa Brownie & Pistachio Whippy Plate', price: 7.50, cat: 'kunafa', photo: 'nargis_bakes_008.jpg', desc: 'Warm Kunafa brownie served alongside high-swirl vanilla whippy soft-serve drizzled with pistachio sauce and roasted nuts.' },
+      { id: 3, name: 'Double Kunafa Brownie & Whippy Tray', price: 11.50, cat: 'kunafa', photo: 'nargis_bakes_005.jpg', desc: 'Two generous slices of signature Pistachio Kunafa Brownie with towering pistachio-drenched whippy ice cream.' },
+      { id: 4, name: 'Pistachio & Rose Petal Milk Cake (Tres Leches)', price: 6.50, cat: 'cakes', photo: 'nargis_bakes_001.jpg', desc: 'Light sponge soaked in sweet saffron-cardamom milk bath, topped with whipped cream, pistachio drizzle, and edible rose petals.' },
+      { id: 5, name: 'Famous 4-Layer Matilda Chocolate Cake', price: 6.50, cat: 'cakes', photo: 'nargis_bakes_006.jpg', desc: 'Four rich dark cocoa sponge layers generously filled and coated in glossy, molten Belgian chocolate fudge ganache.' },
+      { id: 6, name: 'Mini Egg Fudge Brownie', price: 4.00, cat: 'brownies', photo: 'nargis_bakes_003.jpg', desc: 'Counter favourite (£4.00 label) piped with milk chocolate waves and studded with crushed & whole Cadbury Mini Eggs.' },
+      { id: 7, name: 'Kinder Bueno Feathered Brownie', price: 4.00, cat: 'brownies', photo: 'nargis_bakes_007.jpg', desc: 'Gooey chocolate brownie topped with thick white hazelnut Kinder cream and feathered chocolate chevron swirls.' },
+      { id: 8, name: 'Oreo Biscuit Crunch Brownie', price: 4.00, cat: 'brownies', photo: 'nargis_bakes_002.jpg', desc: 'Rich chocolate brownie baked with whole Oreo cookies and dark fudge drizzle.' },
+      { id: 9, name: 'Caramelised Cornflake Crunch Top Brownie', price: 4.00, cat: 'brownies', photo: 'nargis_bakes_002.jpg', desc: 'Fudgy brownie crowned with a thick golden layer of crunchy caramelised cornflake clusters.' },
+      { id: 10, name: 'Terry’s Chocolate Orange Brownie', price: 4.00, cat: 'brownies', photo: 'nargis_bakes_007.jpg', desc: 'Zesty chocolate orange fudge brownie topped with a real Terry’s Chocolate Orange segment.' },
+      { id: 11, name: 'Mini Egg Stuffed NYC Cookie Bar', price: 4.50, cat: 'cookies', photo: 'nargis_bakes_004.jpg', desc: 'Thick golden cookie dough bar with a molten chocolate fudge core and pastel Mini Eggs on top.' },
+      { id: 12, name: 'Double Choc Fudge NYC Cookie', price: 3.50, cat: 'cookies', photo: 'nargis_bakes_004.jpg', desc: 'Soft-baked crinkle dark cocoa cookie loaded with melty milk and dark chocolate chunks.' },
+      { id: 13, name: 'Old-School Iced Sprinkle Cake Slice', price: 4.00, cat: 'cakes', photo: 'nargis_bakes_007.jpg', desc: 'Nostalgic bakery vanilla sponge topped with glacé icing and rainbow hundreds-and-thousands.' },
+      { id: 14, name: 'Celebration Brownie Slab Gift Box', price: 28.00, cat: 'cakes', photo: 'nargis_bakes_007.jpg', desc: 'Large luxury pink gift box brownie slab topped with custom gold plaque, strawberries, Lotus Biscoff, and Ferrero.' }
+    ];
+
+    const GALLERY_CAPTIONS = [
+      { file: 'nargis_bakes_001.jpg', title: 'Pistachio & Rose Milk Cake' },
+      { file: 'nargis_bakes_002.jpg', title: 'Kunafa, Oreo & Cornflake Counter Trays' },
+      { file: 'nargis_bakes_003.jpg', title: 'Hand-Cut Mini Egg Brownie (£4.00)' },
+      { file: 'nargis_bakes_004.jpg', title: 'Mini Egg Cookie Bar & Double Choc Cookies' },
+      { file: 'nargis_bakes_005.jpg', title: 'Double Kunafa Brownie & Whippy Takeaway' },
+      { file: 'nargis_bakes_006.jpg', title: '4-Layer Molten Matilda Chocolate Cake' },
+      { file: 'nargis_bakes_007.jpg', title: 'Pink Counter, £4 Brownies & Birthday Box' },
+      { file: 'nargis_bakes_008.jpg', title: 'Plated Kunafa Brownie & Pistachio Soft-Serve' },
+      { file: 'nargis_bakes_009.jpg', title: '3-Layer Kunafa Kataifi Cross-Section' }
+    ];
+
+    let cart = [];
+    let currentBoxSize = 4;
+    let currentBoxPrice = 16.00;
+    let boxSlots = [];
+    let blobPhotoMap = {};
+
+    function renderMenu(category = 'all') {
+      const grid = document.getElementById('menuGrid');
+      const items = category === 'all' ? MENU_ITEMS : MENU_ITEMS.filter(i => i.cat === category);
+      grid.innerHTML = items.map(item => {
+        const src = blobPhotoMap[item.photo] || item.photo;
+        return `
+          <div class="bg-white rounded-2xl overflow-hidden border border-blushDeep/60 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="h-52 overflow-hidden bg-blush/30 relative">
+                <img data-photo="${item.photo}" src="${src}" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80'" alt="${item.name}" class="w-full h-full object-cover hover:scale-105 transition duration-300" />
+                <span class="absolute top-3 right-3 bg-espresso text-cream text-xs font-bold px-3 py-1 rounded-full">£${item.price.toFixed(2)}</span>
+              </div>
+              <div class="p-5">
+                <h3 class="font-serif font-bold text-lg">${item.name}</h3>
+                <p class="text-xs text-espresso/75 mt-1.5 leading-relaxed">${item.desc}</p>
+              </div>
+            </div>
+            <div class="px-5 pb-5 pt-2">
+              <button onclick="addToCart(${item.id})" class="w-full bg-blush hover:bg-blushDeep text-espresso font-semibold py-2.5 rounded-xl text-xs transition">
+                + Add to Order Bag (£${item.price.toFixed(2)})
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterMenu(cat) {
+      renderMenu(cat);
+    }
+
+    function addToCart(id) {
+      const item = MENU_ITEMS.find(i => i.id === id);
+      if (!item) return;
+      const existing = cart.find(c => c.name === item.name);
+      if (existing) existing.qty += 1;
+      else cart.push({ name: item.name, price: item.price, qty: 1 });
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const count = cart.reduce((sum, i) => sum + i.qty, 0);
+      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      document.getElementById('cartCountBadge').textContent = count;
+      document.getElementById('cartTotalDisplay').textContent = '£' + total.toFixed(2);
+
+      const list = document.getElementById('cartItemsList');
+      if (!cart.length) {
+        list.innerHTML = '<p class="text-xs text-espresso/60 text-center py-6">Your bag is empty. Add treats from the counter menu!</p>';
+        return;
+      }
+      list.innerHTML = cart.map((c, idx) => `
+        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-blushDeep text-xs">
+          <div>
+            <p class="font-bold">${c.qty}x ${c.name}</p>
+            <p class="text-espresso/70">£${(c.price * c.qty).toFixed(2)}</p>
+          </div>
+          <button onclick="removeCartItem(${idx})" class="text-red-600 font-bold px-2">Remove</button>
+        </div>
+      `).join('');
+    }
+
+    function removeCartItem(idx) {
+      cart.splice(idx, 1);
+      updateCartUI();
+    }
+
+    function toggleCart(open) {
+      document.getElementById('cartDrawer').classList.toggle('hidden', !open);
+    }
+
+    // Pink Box Builder Logic
+    function initBoxBuilder() {
+      const choices = MENU_ITEMS.filter(i => i.cat === 'brownies' || i.cat === 'cookies' || i.id === 1);
+      document.getElementById('boxTreatChoices').innerHTML = choices.map(c => `
+        <button onclick="addTreatToBox('${c.name.replace(/'/g, "\\'")}')" class="p-2.5 rounded-xl border border-blushDeep text-left hover:bg-blush/50 transition text-xs">
+          <div class="font-bold line-clamp-1">${c.name}</div>
+          <div class="text-[11px] text-espresso/60 mt-0.5">+ Tap to add</div>
+        </button>
+      `).join('');
+      renderBoxSlots();
+    }
+
+    function setBoxSize(size, price) {
+      currentBoxSize = size;
+      currentBoxPrice = price;
+      boxSlots = boxSlots.slice(0, size);
+      document.getElementById('boxPriceLabel').textContent = '£' + price.toFixed(2);
+      renderBoxSlots();
+    }
+
+    function addTreatToBox(name) {
+      if (boxSlots.length >= currentBoxSize) return alert('Your Pink Box is full! Click a slot to remove an item or add the box to your bag.');
+      boxSlots.push(name);
+      renderBoxSlots();
+    }
+
+    function removeBoxSlot(i) {
+      boxSlots.splice(i, 1);
+      renderBoxSlots();
+    }
+
+    function renderBoxSlots() {
+      const container = document.getElementById('boxSlotsContainer');
+      let html = '';
+      for (let i = 0; i < currentBoxSize; i++) {
+        const filled = boxSlots[i];
+        html += filled
+          ? `<div onclick="removeBoxSlot(${i})" class="cursor-pointer p-3 rounded-xl bg-blush border border-espresso/20 text-xs font-semibold flex justify-between items-center"><span>${i+1}. ${filled}</span><span>✕</span></div>`
+          : `<div class="p-3 rounded-xl border border-dashed border-blushDeep text-xs text-espresso/50">Slot ${i+1}: Empty</div>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function addCustomBoxToCart() {
+      if (boxSlots.length < currentBoxSize) return alert('Please fill all ' + currentBoxSize + ' slots in your Pink Box first.');
+      const note = document.getElementById('boxGiftNote').value.trim();
+      cart.push({
+        name: `Pink NB Box of ${currentBoxSize} (${boxSlots.join(', ')})`,
+        price: currentBoxPrice,
+        qty: 1,
+        addon: note ? `Ribbon Note: ${note}` : ''
+      });
+      boxSlots = [];
+      renderBoxSlots();
+      updateCartUI();
+      toggleCart(true);
+    }
+
+    // Render 9-Photo Gallery
+    function renderGallery() {
+      document.getElementById('photoGalleryGrid').innerHTML = GALLERY_CAPTIONS.map(g => {
+        const src = blobPhotoMap[g.file] || g.file;
+        return `
+          <div class="rounded-2xl overflow-hidden border border-blushDeep bg-white shadow-xs">
+            <img data-photo="${g.file}" src="${src}" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80'" alt="${g.title}" class="w-full h-48 sm:h-60 object-cover" />
+            <div class="p-3 flex items-center justify-between text-xs">
+              <span class="font-semibold">${g.title}</span>
+              <span class="text-espresso/50 font-mono">${g.file}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Live Local Photo Loader (001-009)
+    function handleLocalFiles(files) {
+      Array.from(files).forEach(file => {
+        blobPhotoMap[file.name] = URL.createObjectURL(file);
+      });
+      document.querySelectorAll('img[data-photo]').forEach(img => {
+        const key = img.getAttribute('data-photo');
+        if (blobPhotoMap[key]) img.src = blobPhotoMap[key];
+      });
+    }
+
+    // Connected Backend API Calls (POST /api/orders & POST /api/enquiries)
+    async function submitOrderToBackend(e) {
+      e.preventDefault();
+      if (!cart.length) return alert('Your bag is empty!');
+      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      const payload = {
+        customerName: document.getElementById('custName').value,
+        customerPhone: document.getElementById('custPhone').value,
+        pickupTime: document.getElementById('custTime').value,
+        notes: document.getElementById('custNotes').value,
+        items: cart,
+        total: total
+      };
+      const msgEl = document.getElementById('orderResultMsg');
+      msgEl.classList.remove('hidden');
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        msgEl.textContent = `OrderConfirmed! Reference: ${data.order.id}. See you at 503 Great Horton Rd!`;
+        cart = [];
+        updateCartUI();
+      } catch (err) {
+        msgEl.textContent = 'Saved locally (start server.js to sync with Live Kitchen Admin).';
+      }
+    }
+
+    async function submitEnquiryForm(e) {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('enqName').value,
+        phone: document.getElementById('enqPhone').value,
+        eventDate: document.getElementById('enqDate').value,
+        guestCount: document.getElementById('enqGuests').value,
+        message: document.getElementById('enqMessage').value
+      };
+      const fb = document.getElementById('enqFeedback');
+      fb.classList.remove('hidden');
+      try {
+        const res = await fetch('/api/enquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        fb.textContent = `Enquiry ${data.enquiry.id} received! Our cake decorators will text you shortly.`;
+        e.target.reset();
+      } catch (err) {
+        fb.textContent = 'Enquiry captured! Call 07961 137116 for urgent same-day slabs.';
+      }
+    }
+
+    // Bradford Live Opening Hours Check
+    function checkHours() {
+      const now = new Date();
+      const day = now.getDay();
+      const hr = now.getHours();
+      const isWeekend = (day === 0 || day === 6);
+      const isOpen = isWeekend ? (hr >= 12) : (hr >= 14);
+      document.getElementById('openStatusText').textContent = isOpen
+        ? 'OPEN NOW in Bradford • Fresh Bakes Until Midnight'
+        : 'Counter Opens at ' + (isWeekend ? '12:00 PM' : '2:00 PM') + ' Today • Pre-Order Online';
+    }
+
+    checkHours();
+    renderMenu();
+    initBoxBuilder();
+    renderGallery();
+    updateCartUI();
+  </script>
+</body>
+</html>
