@@ -11,8 +11,8 @@ const ADMIN_PIN = process.env.ADMIN_PIN || 'BD74EG'; // Change in hosting enviro
 app.use(cors());
 app.use(express.json());
 
-// Ensure directories exist
-const PUBLIC_DIR = __dirname;
+// Ensure directories exist (pointing to your data/public structure)
+const PUBLIC_DIR = path.join(__dirname, 'data', 'public');
 const DATA_DIR = path.join(__dirname, 'data');
 if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -33,10 +33,10 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-// Serve static website and downloaded photos from /public
+// Serve static website and downloaded photos from data/public
 app.use(express.static(PUBLIC_DIR));
 
-// Configure Multer so staff can upload nargis_bakes_001.jpg - 009.jpg directly to /public
+// Configure Multer so staff can upload photos directly to data/public
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, PUBLIC_DIR),
   filename: (req, file, cb) => cb(null, file.originalname)
@@ -108,7 +108,7 @@ app.post('/api/enquiries', (req, res) => {
   res.status(201).json({ success: true, enquiry: entry });
 });
 
-// 5. Upload Counter Photos (nargis_bakes_001.jpg - 009.jpg) from Admin
+// 5. Upload Counter Photos from Admin
 app.post('/api/upload-photos', upload.array('photos', 20), (req, res) => {
   if (req.headers['x-admin-pin'] !== ADMIN_PIN) {
     return res.status(401).json({ error: 'Unauthorized PIN' });
@@ -164,7 +164,7 @@ app.get('/admin', (req, res) => {
         container.innerHTML = '<p class="text-gray-500 py-8 text-center">No orders yet.</p>';
         return;
       }
-      container.innerHTML = orders.map(o => \`
+      container.innerHTML = orders.map(o => `
         <div class="bg-white border border-pink-200 rounded-xl p-4 shadow-sm flex flex-wrap justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
@@ -174,18 +174,18 @@ app.get('/admin', (req, res) => {
             </div>
             <p class="text-sm font-semibold mt-1">\${o.customerName} • \${o.customerPhone} • Pickup: \${o.pickupTime}</p>
             <ul class="text-xs text-gray-700 mt-2 list-disc pl-4">
-              \${o.items.map(i => \`<li>\${i.qty || 1}x \${i.name} (£\${i.price}) \${i.addon ? '['+i.addon+']' : ''}</li>\`).join('')}
+              \${o.items.map(i => `<li>\${i.qty || 1}x \${i.name} (£\${i.price}) \${i.addon ? '['+i.addon+']' : ''}</li>`).join('')}
             </ul>
-            \${o.notes ? \`<p class="text-xs italic mt-1 text-pink-800">Note: \${o.notes}</p>\` : ''}
+            \${o.notes ? `<p class="text-xs italic mt-1 text-pink-800">Note: \${o.notes}</p>` : ''}
           </div>
           <div class="flex flex-col items-end justify-between">
             <span class="text-lg font-bold">£\${o.total}</span>
             <select onchange="updateStatus('\${o.id}', this.value)" class="border rounded-lg px-2 py-1 text-xs">
-              \${['New','Preparing','Ready for Collection','Completed'].map(s => \`<option value="\${s}" \${o.status===s?'selected':''}>\${s}</option>\`).join('')}
+              \${['New','Preparing','Ready for Collection','Completed'].map(s => `<option value="\${s}" \${o.status===s?'selected':''}>\${s}</option>`).join('')}
             </select>
           </div>
         </div>
-      \`).join('');
+      `).join('');
     }
 
     async function updateStatus(id, status) {
